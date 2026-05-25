@@ -1,0 +1,14 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "city": "ufa",
+            "lat": "54.7388",
+            "lon": "55.9721",
+            "timezone": "Asia/Yekaterinburg"
+            
+        }
+
+    ]
+
+}

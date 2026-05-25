@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Переменная облачность">
+  <title>Переменная облачность</title>
+  <rect width="128" height="128" rx="24" fill="#f8fafc"/>
+  
+  <g fill="none" stroke="#f59e0b" stroke-linecap="round" stroke-width="7">
+    <path d="M43 8v10"/>
+    <path d="M43 66v10"/>
+    <path d="M9 42h10"/>
+    <path d="M67 42h10"/>
+    <path d="m19 18 7 7"/>
+    <path d="m60 59 7 7"/>
+    <path d="m67 18-7 7"/>
+    <path d="m26 59-7 7"/>
+  </g>
+  <circle cx="43" cy="42" r="21" fill="#fbbf24"/>
+  <g transform="translate(31 58) scale(0.9)">
+    <path fill="#94a3b8" d="M73 42H18C8 42 0 34 0 24S8 6 18 6c3 0 6 1 9 2C33 3 41 0 50 0c16 0 29 12 31 27 8 2 14 8 14 15 0 9-8 16-22 16Z" opacity=".25"/>
+    <path fill="#cbd5e1" d="M70 36H18C8 36 0 29 0 20S8 4 18 4c4 0 7 1 10 3C34 3 41 0 49 0c16 0 29 12 30 27 8 1 14 7 14 14 0 9-8 15-23 15Z"/>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Ясно">
+  <title>Ясно</title>
+  <rect width="128" height="128" rx="24" fill="#f8fafc"/>
+  
+  <g fill="none" stroke="#f59e0b" stroke-linecap="round" stroke-width="7">
+    <path d="M64 30v10"/>
+    <path d="M64 88v10"/>
+    <path d="M30 64h10"/>
+    <path d="M88 64h10"/>
+    <path d="m40 40 7 7"/>
+    <path d="m81 81 7 7"/>
+    <path d="m88 40-7 7"/>
+    <path d="m47 81-7 7"/>
+  </g>
+  <circle cx="64" cy="64" r="27" fill="#fbbf24"/>
+</svg>
