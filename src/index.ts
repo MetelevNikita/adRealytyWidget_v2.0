@@ -71,3 +71,11 @@ weatherServer.routerGet('/:city', async (req, res) => {
     })
 })
 
+
+weatherServer.routerGet('/', (req, res) => {
+    res.status(200).json({
+        status: "ok",
+        message: "Weather API",
+    });
+})
+
