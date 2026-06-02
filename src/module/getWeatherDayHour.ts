@@ -9,12 +9,12 @@ export async function getWeatherDayHour (city: string): Promise<any[]> {
 
         const findCurrentCity = regions.data.find((item: {city: string}) => item.city == city) ?? null
 
-        console.log('ГОРОД!!!!! ', findCurrentCity)
-
         if (!findCurrentCity) {
             console.error('Параметр города на найден в списке город на получение данных о погоде на день')
             return []
         }
+
+         console.log('город найден: ', findCurrentCity)
 
         // 
 

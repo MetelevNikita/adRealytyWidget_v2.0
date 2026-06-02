@@ -49,9 +49,9 @@ weatherServer.routerGet('/:city', async (req, res) => {
 
         console.log('Данные получены с API')
 
-        let dataWeatherWeek = await getWeatherWeek(city as string, rangeDates as string[])
-        let dataWeatherDay = await getWeatherDayHour(city as string)
-        let exchangeRate = await getExchangeRate()
+
+        const [ dataWeatherWeek,  dataWeatherDay, exchangeRate] = await Promise.all([getWeatherWeek(city as string, rangeDates as string[]), getWeatherDayHour(city as string), getExchangeRate()])
+
 
         wetaherCache.set(`DATA:${city}`, {
             dataWeatherWeek,
@@ -60,11 +60,8 @@ weatherServer.routerGet('/:city', async (req, res) => {
         })
     }
 
-
     console.log('Данные из КЭША')
     const data = wetaherCache.get(`DATA:${city}`)
-
-
 
     res.status(200).send({
         result: data

@@ -9,7 +9,7 @@ export async function getWeatherWeek (city: string, dates: string[]): Promise<an
     try {
         
 
-        const findCurrentCity = regions.data.find((item: {city: string}) => item.city === city) ?? null
+        const findCurrentCity = regions.data.find((item: {city: string}) => item.city == city) ?? null
         console.log(findCurrentCity)
 
 
@@ -19,8 +19,6 @@ export async function getWeatherWeek (city: string, dates: string[]): Promise<an
         }
 
 
-        const startDate = dates[0]
-        const endDate = dates[dates.length - 1]
         const url = new URL("https://api.open-meteo.com/v1/forecast");
 
         url.searchParams.set("latitude", findCurrentCity.lat);
