@@ -5,9 +5,22 @@ import {weatherCodeIcons} from '../lib/weathetIcons'
 
 
 
-export async function getWeatherWeek (city: string, dates: string[]): Promise<any[]> {
+export async function getWeatherWeek (city: string, dates: string[], baseUrl: string): Promise<any[]> {
     try {
-        
+
+
+        const insertYrlWeather = Object.fromEntries(
+            Object.entries(weatherCodeIcons).map(([code, data]) => [
+                code,
+                {
+                    ...data,
+                    icon: `${baseUrl}${data.icon}`
+                }
+
+            ])
+        )
+
+
 
         const findCurrentCity = regions.data.find((item: {city: string}) => item.city == city) ?? null
         console.log(findCurrentCity)

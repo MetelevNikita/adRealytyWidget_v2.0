@@ -14,8 +14,6 @@ export async function getWeatherDayHour (city: string): Promise<any[]> {
             return []
         }
 
-         console.log('город найден: ', findCurrentCity)
-
         // 
 
         const url = new URL('https://api.open-meteo.com/v1/forecast')

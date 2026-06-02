@@ -2,7 +2,6 @@ import { Server } from './Server/server'
 
 // 
 
-import path from 'node:path'
 import NodeCache from 'node-cache'
 
 // service
@@ -23,6 +22,9 @@ const wetaherCache = new NodeCache({
 })
 
 
+
+
+
 const weatherServer = new Server(7500)
 weatherServer.startServer()
 
@@ -41,6 +43,7 @@ weatherServer.routerGet('/:city', async (req, res) => {
         return res.status(204).send()
     }
 
+    const url = `${req.protocol}://${req.get("host")}`
 
     const currentDate = new Date()
     const rangeDates = getDateRange(currentDate)
@@ -50,7 +53,7 @@ weatherServer.routerGet('/:city', async (req, res) => {
         console.log('Данные получены с API')
 
 
-        const [ dataWeatherWeek,  dataWeatherDay, exchangeRate] = await Promise.all([getWeatherWeek(city as string, rangeDates as string[]), getWeatherDayHour(city as string), getExchangeRate()])
+        const [ dataWeatherWeek,  dataWeatherDay, exchangeRate] = await Promise.all([getWeatherWeek(city as string, rangeDates as string[], url as string), getWeatherDayHour(city as string), getExchangeRate()])
 
 
         wetaherCache.set(`DATA:${city}`, {

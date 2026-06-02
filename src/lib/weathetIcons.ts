@@ -1,5 +1,8 @@
+
+
+
 export const weatherCodeIcons = {
-  0: { label: "Ясно", icon: "/assets/weather-icons/0-clear.svg" },
+  0: { label: "Ясно", icon: `/weather-icons/0-clear.svg` },
   1: { label: "Преимущественно ясно", icon: "/weather-icons/1-mainly-clear.svg" },
   2: { label: "Переменная облачность", icon: "/weather-icons/2-partly-cloudy.svg" },
   3: { label: "Пасмурно", icon: "/weather-icons/3-overcast.svg" },
