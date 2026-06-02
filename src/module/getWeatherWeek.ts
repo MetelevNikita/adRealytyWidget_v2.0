@@ -8,8 +8,10 @@ import {weatherCodeIcons} from '../lib/weathetIcons'
 export async function getWeatherWeek (city: string, dates: string[], baseUrl: string): Promise<any[]> {
     try {
 
+        console.log('На неделю')
 
-        const insertYrlWeather = Object.fromEntries(
+
+        const insertUrlWeather = Object.fromEntries(
             Object.entries(weatherCodeIcons).map(([code, data]) => [
                 code,
                 {
@@ -67,7 +69,7 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
                     })
                     case 'weather_code':
                         const code = Number(data.daily[key][index])
-                        return obj[key] = weatherCodeIcons[code as keyof typeof weatherCodeIcons]
+                        return obj[key] = insertUrlWeather[code as keyof typeof weatherCodeIcons]
                     default:
                         return obj[key] = data.daily[key][index]
                 }
