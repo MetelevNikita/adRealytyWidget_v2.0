@@ -11,6 +11,39 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
         console.log('На неделю')
 
 
+        const shortDay = [
+            {
+                day: 'Понедельник',
+                short: 'ПН'
+            },
+            {
+                day: 'Вторник',
+                short: 'ВТ'
+            },
+            {
+                day: 'Среда',
+                short: 'СР'
+            },
+            {
+                day: 'Четверг',
+                short: 'ЧТ'
+            },
+            {
+                day: 'Пятница',
+                short: 'ПТ'
+            },
+            {
+                day: 'Суббота',
+                short: 'СБ'
+            },
+            {
+                day: 'Воскресенье',
+                short: 'ВС'
+            },
+            
+        ]
+
+
         const insertUrlWeather = Object.fromEntries(
             Object.entries(weatherCodeIcons).map(([code, data]) => [
                 code,
@@ -56,17 +89,23 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
 
         const newData = data.daily.time.map((day: string, index: number) => {
 
+            console.log(day)
+
             let obj: any = {}
             keys.map((key) => {
 
                 switch (key) {
                     case 'time':
-                        return obj['date'] = new Date(data.daily[key][index]).toLocaleDateString('ru-Ru', {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric",
-                    })
+                        return (
+                            obj['date'] = new Date(data.daily[key][index]).toLocaleDateString('ru-Ru', {
+                                weekday: 'long',
+                                day: 'numeric',
+                                month: 'long'
+                            }),
+                            obj['week'] = new Date(data.daily[key][index]).toLocaleDateString('ru-Ru', {
+                                weekday: "short"
+                            }).toUpperCase()
+                        )
                     case 'weather_code':
                         const code = Number(data.daily[key][index])
                         return obj[key] = insertUrlWeather[code as keyof typeof weatherCodeIcons]
@@ -82,10 +121,14 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
                             minute: "2-digit",
                             timeZone: findCurrentCity.timezone
                         }).split(', ')[1],
+                        day: new Date().getDate(),
+                        week: '',
                         ...obj
                     }
             
         })
+
+        console.log(newData)
 
         return newData
 
