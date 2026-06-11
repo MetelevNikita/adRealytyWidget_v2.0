@@ -71,10 +71,14 @@ weatherServer.routerGet('/:city', async (req, res) => {
             dataWeatherDay,
             exchangeRate
         })
+    } else {
+        console.log('Данные из КЭША')
     }
 
-    console.log('Данные из КЭША')
+
     const data = wetaherCache.get(`DATA:${city}`)
+
+
 
     res.status(200).send({
         result: data

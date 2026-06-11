@@ -88,10 +88,14 @@ export async function getWeatherDayHour (city: string, baseUrl: string): Promise
 
     } catch (error: Error | unknown) {
         if (error instanceof Error) {
-            console.error(`Ошибка API open-meteo ${error.message}`)
+            console.error('Ошибка API open-meteo !!!!', {
+                name: error.name,
+                message: error.message,
+                cause: error.cause
+            })
             return []
         }
-        
+
         console.error(`Неизвестная ошибка ${error}`)
         return []
     } finally {

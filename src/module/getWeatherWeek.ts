@@ -93,11 +93,6 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
             return []
         }
 
-        setTimeout(() => {
-            controller.abort()
-        }, 10000)
-
-
         const data = await response.json()
         const keys = Object.keys(data.daily)
         const newData = data.daily.time.map((day: string, index: number) => {
@@ -147,12 +142,16 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
 
         
     } catch (error: Error | unknown) {
-
         if (error instanceof Error) {
-            console.error(`Ошибка API open-meteo !!!! ${error}`)
+            console.error('Ошибка API open-meteo !!!!', {
+                name: error.name,
+                message: error.message,
+                cause: error.cause
+            })
             return []
         }
-        console.error(`Неизветсная ошибка ${error}`)
+
+        console.error(`Неизвестная ошибка ${error}`)
         return []
     } finally {
         clearTimeout(timeout)   
