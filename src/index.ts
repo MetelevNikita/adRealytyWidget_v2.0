@@ -53,8 +53,18 @@ weatherServer.routerGet('/:city', async (req, res) => {
         console.log('Данные получены с API')
 
 
-        const [ dataWeatherWeek,  dataWeatherDay, exchangeRate] = await Promise.all([getWeatherWeek(city as string, rangeDates as string[], url as string), getWeatherDayHour(city as string), getExchangeRate()])
+        const [ dataWeatherWeek,  dataWeatherDay, exchangeRate] = await Promise.all([getWeatherWeek(city as string, rangeDates as string[], url as string), getWeatherDayHour(city as string, url as string), getExchangeRate()])
 
+        if (!dataWeatherWeek.length || !dataWeatherDay.length) {
+            return res.status(502).send({
+                error: 'Weather API unavailable',
+                result: {
+                    dataWeatherWeek,
+                    dataWeatherDay,
+                    exchangeRate
+                }
+            })
+        }
 
         wetaherCache.set(`DATA:${city}`, {
             dataWeatherWeek,

@@ -2,10 +2,31 @@
 import regions from '../../regions.json'
 import {weatherCodeIcons} from '../lib/weathetIcons'
 
-export async function getWeatherDayHour (city: string): Promise<any[]> {
+
+
+
+export async function getWeatherDayHour (city: string, baseUrl: string): Promise<any[]> {
+
+    const insertUrlWeather = Object.fromEntries(
+    Object.entries(weatherCodeIcons).map(([code, data]) => [
+        code,
+        {
+            ...data,
+            icon: `${baseUrl}${data.icon}`
+        }
+
+    ])
+)
+
+
+    const controller = new AbortController()
+    const timeout = setTimeout(() => {
+        controller.abort()
+    }, 10000)
+
     try {
 
-        // 
+        //
 
         const findCurrentCity = regions.data.find((item: {city: string}) => item.city == city) ?? null
 
@@ -27,6 +48,7 @@ export async function getWeatherDayHour (city: string): Promise<any[]> {
         url.searchParams.set("timezone", findCurrentCity.timezone);
 
         const response = await fetch(url, {
+            signal: controller.signal,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -57,12 +79,11 @@ export async function getWeatherDayHour (city: string): Promise<any[]> {
                     minute: '2-digit', 
                 }),
                 date: new Date(item.time).toLocaleDateString('RU-ru'),
-                weather_code: weatherCodeIcons[code as keyof typeof weatherCodeIcons]
+                weather_code: insertUrlWeather[code as keyof typeof weatherCodeIcons]
             }
 
         })
 
-        
         return newData
 
     } catch (error: Error | unknown) {
@@ -73,5 +94,7 @@ export async function getWeatherDayHour (city: string): Promise<any[]> {
         
         console.error(`Неизвестная ошибка ${error}`)
         return []
+    } finally {
+        clearInterval(timeout)
     }
 }

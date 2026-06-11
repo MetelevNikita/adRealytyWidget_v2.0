@@ -6,6 +6,12 @@ import {weatherCodeIcons} from '../lib/weathetIcons'
 
 
 export async function getWeatherWeek (city: string, dates: string[], baseUrl: string): Promise<any[]> {
+
+    const controller = new AbortController()
+    const timeout = setTimeout(() => {
+        controller.abort()
+    }, 10000)
+
     try {
 
         const shortDay = [
@@ -75,15 +81,25 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
 
 
         const response = await fetch(url, {
+            signal: controller.signal,
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             }
         })
 
+        if (!response.ok) {
+            console.error('Open-Meteo HTTP error:', response.status)
+            return []
+        }
+
+        setTimeout(() => {
+            controller.abort()
+        }, 10000)
+
+
         const data = await response.json()
         const keys = Object.keys(data.daily)
-
         const newData = data.daily.time.map((day: string, index: number) => {
 
             let obj: any = {}
@@ -133,10 +149,12 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
     } catch (error: Error | unknown) {
 
         if (error instanceof Error) {
-            console.error(`Ошибка API open-meteo ${error.message}`)
+            console.error(`Ошибка API open-meteo !!!! ${error}`)
             return []
         }
         console.error(`Неизветсная ошибка ${error}`)
         return []
+    } finally {
+        clearTimeout(timeout)   
     }
 }
