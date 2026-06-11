@@ -71,7 +71,7 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
 
         url.searchParams.set("latitude", findCurrentCity.lat);
         url.searchParams.set("longitude", findCurrentCity.lon);
-        url.searchParams.set("daily",  "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min");
+        url.searchParams.set("daily",  "weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,apparent_temperature_mean");
         url.searchParams.set("timezone", findCurrentCity.timezone);
         url.searchParams.set("forecast_days", "7");
         url.searchParams.set("current", "weather_code,is_day");
@@ -87,12 +87,13 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
         const data = await response.json()
         const keys = Object.keys(data.daily)
 
-        const newData = data.daily.time.map((day: string, index: number) => {
+        console.log(data)
 
-            console.log(day)
+        const newData = data.daily.time.map((day: string, index: number) => {
 
             let obj: any = {}
             keys.map((key) => {
+                console.log(key)
 
                 switch (key) {
                     case 'time':
@@ -104,11 +105,18 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
                             }),
                             obj['week'] = new Date(data.daily[key][index]).toLocaleDateString('ru-Ru', {
                                 weekday: "short"
-                            }).toUpperCase()
+                            }).toUpperCase(),
+                            obj['day'] = new Date(data.daily[key][index]).getDate()
                         )
                     case 'weather_code':
                         const code = Number(data.daily[key][index])
                         return obj[key] = insertUrlWeather[code as keyof typeof weatherCodeIcons]
+                    case 'temperature_2m_max':
+                    case 'temperature_2m_min':
+                    case 'apparent_temperature_max':
+                    case 'apparent_temperature_min':
+                    case 'apparent_temperature_mean':
+                        return obj[key] = Math.floor(data.daily[key][index])
                     default:
                         return obj[key] = data.daily[key][index]
                 }
@@ -121,15 +129,10 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
                             minute: "2-digit",
                             timeZone: findCurrentCity.timezone
                         }).split(', ')[1],
-                        day: new Date().getDate(),
-                        week: '',
                         ...obj
                     }
             
         })
-
-        console.log(newData)
-
         return newData
 
         

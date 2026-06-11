@@ -50,6 +50,7 @@ export async function getWeatherDayHour (city: string): Promise<any[]> {
             const code = Number(item.weather_code)
             return {
                 ...item,
+                temperature_2m: Math.floor(item.temperature_2m),
                 time: new Date(item.time).toLocaleTimeString('RU-ru', {
                     hourCycle: 'h24',
                     hour: '2-digit',
