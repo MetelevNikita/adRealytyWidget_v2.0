@@ -8,9 +8,6 @@ import {weatherCodeIcons} from '../lib/weathetIcons'
 export async function getWeatherWeek (city: string, dates: string[], baseUrl: string): Promise<any[]> {
     try {
 
-        console.log('На неделю')
-
-
         const shortDay = [
             {
                 day: 'Понедельник',
@@ -87,13 +84,10 @@ export async function getWeatherWeek (city: string, dates: string[], baseUrl: st
         const data = await response.json()
         const keys = Object.keys(data.daily)
 
-        console.log(data)
-
         const newData = data.daily.time.map((day: string, index: number) => {
 
             let obj: any = {}
             keys.map((key) => {
-                console.log(key)
 
                 switch (key) {
                     case 'time':
