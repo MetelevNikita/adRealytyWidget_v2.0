@@ -55,6 +55,12 @@ export async function getWeatherDayHour (city: string, baseUrl: string): Promise
             }
         })
 
+        if (!response.ok) {
+            console.error(`Error ошибка API ${response.status} - ${response.statusText}`)
+            return []
+        }
+
+
         const data = await response.json()
         const dayHour = data.hourly.time
   

@@ -39,7 +39,13 @@ weatherServer.routerGet('/:city', async (req, res) => {
 
     const { city } = req.params
 
-    if (city === 'favicon.ico') {
+    if (Array.isArray(city)) {
+        return res.status(400).send({ error: 'Указан неверный парметр города' })
+    }
+
+    const changeCity = city.trim().toLowerCase()
+
+    if (changeCity === 'favicon.ico') {
         return res.status(204).send()
     }
 
@@ -48,12 +54,12 @@ weatherServer.routerGet('/:city', async (req, res) => {
     const currentDate = new Date()
     const rangeDates = getDateRange(currentDate)
 
-    if (!wetaherCache.get(`DATA:${city}`)) {
+    if (!wetaherCache.get(`DATA:${changeCity}`)) {
 
         console.log('Данные получены с API')
 
 
-        const [ dataWeatherWeek,  dataWeatherDay, exchangeRate] = await Promise.all([getWeatherWeek(city as string, rangeDates as string[], url as string), getWeatherDayHour(city as string, url as string), getExchangeRate()])
+        const [ dataWeatherWeek,  dataWeatherDay, exchangeRate] = await Promise.all([getWeatherWeek(changeCity as string, rangeDates as string[], url as string), getWeatherDayHour(changeCity as string, url as string), getExchangeRate()])
 
         if (!dataWeatherWeek.length || !dataWeatherDay.length) {
             return res.status(502).send({
@@ -66,20 +72,17 @@ weatherServer.routerGet('/:city', async (req, res) => {
             })
         }
 
-        wetaherCache.set(`DATA:${city}`, {
+        wetaherCache.set(`DATA:${changeCity}`, {
             dataWeatherWeek,
             dataWeatherDay,
             exchangeRate
         })
     } else {
-        console.log('Данные из КЭША')
+        console.log('Данные из кэша')
     }
 
 
-    const data = wetaherCache.get(`DATA:${city}`)
-
-
-
+    const data = wetaherCache.get(`DATA:${changeCity}`)
     res.status(200).send({
         result: data
     })

@@ -1,4 +1,4 @@
-export async function getExchangeRate () {
+export async function getExchangeRate (): Promise<{}> {
     try {
 
         const url = 'https://www.cbr-xml-daily.ru/daily_json.js'
@@ -9,6 +9,11 @@ export async function getExchangeRate () {
                 'Content-Type':'application/json'
             }
         })
+
+        if (!response.ok) {
+            console.error(`Error ошибка API ${response.status} - ${response.statusText}`)
+            return {}
+        }
 
         const data = await response.json()
         return {
@@ -25,10 +30,10 @@ export async function getExchangeRate () {
     } catch (error: Error | unknown) {
         if (error instanceof Error) {
             console.error(`Ошибка API cbr-xml-daily  ${error.message}`)
-            return []
+            return {}
         }
         
         console.error(`Неизвестная ошибка ${error}`)
-        return []
+        return {}
     }
 }
